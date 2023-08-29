@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="js-todo" author="lokesh-pratap-priyadarshi" />
+</head>
+<body>
+
+<input type="text" name="fruits-input" placeholder="Enter and hit a fruit's name to add a value"  />
+<p id="demo"></p>
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+let fLen = fruits.length;
+const _input_selector = document.querySelector('input[type="text"]');
+
+function IterateFruits() {
+	let text = "<ul>";
+	//for (let i = 0; i < fLen; i++) {
+	fruits.forEach((item)=> {
+	  text += "<li>" + item + "</li>";
+	})
+	text += "</ul>";
+	
+	document.getElementById("demo").innerHTML = text;
+}
+
+const addFruit = (val) => {
+	fruits[fruits.length] = val;
+	
+	IterateFruits();
+}
+
+_input_selector.onkeyup = function(key){
+		if(key.keyCode == 13) {
+			addFruit(_input_selector.value);
+			_input_selector.value = '';
+		}
+}
+
+IterateFruits();
+</script>
+</body>
+</html>
