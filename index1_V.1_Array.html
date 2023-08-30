@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html
+	<head>
+		<title>Todo list Array - vanilla js </title>
+		<meta  http-equiv="Content-Type" content="text/html" charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" author="lokesh-pratap-priyadarshi" />
+		<meta name="keywords" content="todo list vanilla js, Array todo, modern javascript" />
+	</head>
+	<body>
+	<input type="text" name="fruits-input" placeholder="Enter and hit a fruit's name to add a value"  />
+	<p id="demo"></p>
+	<script>
+		const fruits = ["Banana", "Orange", "Apple", "Mango"];
+		let fLen = fruits.length;
+		const _input_selector = document.querySelector('input[type="text"]');
+		const _selected_items = [];
+
+		const deleteSelectedItems = () => {
+			const resFruits = fruits.filter((item, index) => !_selected_items.includes(index));
+			IterateFruits(resFruits);
+		}
+		
+		const updateSelectedItems = () => {
+			const resFruits = fruits.map((item, index) => {
+				return (
+					_selected_items.includes(index) ? (document.querySelector('.update-box').value) : (item)
+				)
+			});
+			IterateFruits(resFruits);
+		}
+		
+		const editSelectedItems = () => {
+			const _input_update = document.createElement('input');
+				_input_update.classList.add('update-box');
+			const _updateBtn = document.createElement('button');
+				_updateBtn.innerText = 'UPDATE';
+			
+			const _demo_selector = document.querySelector('#demo');
+				_demo_selector.appendChild(_input_update);
+				_demo_selector.appendChild(_updateBtn);
+				_updateBtn.onclick = updateSelectedItems;
+		}
+		
+		const displayEditDeleteBtns = () => {
+			const _delBtn = document.createElement('button');
+			_delBtn.innerText = 'DELETE';
+			
+			const _editBtn = document.createElement('button');
+			_editBtn.innerText = 'EDIT';
+			
+			const _demo_selector = document.querySelector('#demo');
+			
+			if(_demo_selector.children.length === 1) {
+				_demo_selector.appendChild(_delBtn);
+				_demo_selector.appendChild(_editBtn);
+			}
+			
+			_delBtn.onclick = deleteSelectedItems;
+			_editBtn.onclick = editSelectedItems;
+
+		}
+
+		const setItemIndex = (index) => {
+			_selected_items[_selected_items.length] = index;
+			displayEditDeleteBtns();
+		}
+		
+		const resetBtns = () => {
+			const _demo_selector = document.querySelector('#demo');
+			_demo_selector.children.length = 1;
+		}
+
+		function IterateFruits(arr) {
+			let text = "<ul>";
+			//for (let i = 0; i < fLen; i++) {
+			arr.forEach((item, index)=> {
+			  text += "<li>" + item + `<input type="checkbox" name="selected-item"  onclick="setItemIndex(${index})" />` + "</li>";
+			})
+			text += "</ul>";
+			
+			document.getElementById("demo").innerHTML = text;
+			_selected_items.length = 0;
+			resetBtns();
+		}
+
+		const addFruit = (val) => {
+			fruits[fruits.length] = val;
+			IterateFruits(fruits);
+		}
+
+		_input_selector.onkeyup = function(key){
+				if(key.keyCode == 13) {
+					addFruit(_input_selector.value);
+					_input_selector.value = '';
+				}
+		}
+
+		IterateFruits(fruits);
+	</script>
+	</body>
+</html>
